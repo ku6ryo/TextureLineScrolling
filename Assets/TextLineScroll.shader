@@ -2,8 +2,6 @@
 {
     Properties
     {
-        _LightColor ("Light color", Color) = (1,1,1,1)
-        _DarkColor ("Dark color", Color) = (1,0,0,1)
         _MainTex ("Texture", 2D) = "white" {}
         _Rows ("Number of rows", Range(0, 20)) = 4
         _StartPos ("Start position", Range(0, 20)) = 0
@@ -30,8 +28,6 @@
             float2 uv_MainTex;
         };
 
-        fixed4 _DarkColor;
-        fixed4 _LightColor;
         half _StartPos;
         half _Length;
         half _DisplayedLength;
