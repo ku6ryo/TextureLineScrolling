@@ -1,4 +1,4 @@
-﻿Shader "Custom/ScrollScreen"
+﻿Shader "ku6ryo/TextureLineScroll"
 {
     Properties
     {
@@ -32,11 +32,11 @@
 
         fixed4 _DarkColor;
         fixed4 _LightColor;
-        float _StartPos;
-        float _Length;
-        float _DisplayedLength;
-        float _Speed;
-        float _Rows;
+        half _StartPos;
+        half _Length;
+        half _DisplayedLength;
+        half _Speed;
+        half _Rows;
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
         // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -48,14 +48,11 @@
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             fixed2 uv = IN.uv_MainTex;
-            float t = _Time.y;
-            float start1D = (_StartPos - t * _Speed) % _Length;
-            float x1D = (start1D + _DisplayedLength * uv.x) % _Length;
-
-            float x2D = frac(x1D);
-            float y2D = ((x1D - x2D) + uv.y) / _Rows;
-
-            fixed4 c = tex2D (_MainTex, float2(1 - x2D, 1 - y2D)) * _LightColor;
+            half t = _Time.y;
+            half x1D = _StartPos + (t * _Speed + _DisplayedLength * uv.x) % _Length;
+            half x2D = frac(x1D);
+            half y2D = (_Rows - floor(x1D) - 1) / _Rows + uv.y / _Rows;
+            fixed4 c = tex2D (_MainTex, half2(x2D, y2D));
             o.Albedo = c.rgb;
             o.Metallic = 0;
             o.Smoothness = 0;
